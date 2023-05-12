@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:taskitem='clr-namespace:TodoList.TaskItem'
+             xmlns:viewmodel='clr-namespace:TodoList.ViewModel'
+             x:DataType="{x:Type viewmodel:ViewModel}"
+             x:Class="TodoList.MainPage"
+             Title="LIST">
+    <ScrollView>
+        <StackLayout
+            Spacing="25"
+            Padding="30,0">
+            <Grid
+                Margin="0,15">
+            <Entry
+                x:Name="entry"
+                x:DataType="viewmodel:ViewModel"
+                Placeholder="Введите задачу"
+                Margin="0,0,70,0"
+                FontSize="20"
+                ClearButtonVisibility="WhileEditing"/>
+            <Button
+                x:DataType="viewmodel:ViewModel"
+                Command="{Binding AddTaskCommand}"
+                CommandParameter="{Binding Source={x:Reference entry}, Path=Text}"
+                BackgroundColor="{Binding Colorok}"
+                Text="+"
+                FontSize="25"
+                HorizontalOptions="End" 
+                CornerRadius="5"
+                WidthRequest="50"
+                HeightRequest="50"/>
+            </Grid>
+            <Grid Margin="100,0,100,0">
+                <Button
+                    x:DataType="viewmodel:ViewModel"
+                    Command="{Binding ChangeColorCommand}"
+                    CommandParameter="Red"
+                    BackgroundColor="Red"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start"
+                    Margin="20,0,0,0"/>
+                <Button
+                    x:DataType="viewmodel:ViewModel"
+                    Command="{Binding ChangeColorCommand}"
+                    CommandParameter="Blue"
+                    BackgroundColor="Blue"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    />
+                <Button
+                    x:DataType="viewmodel:ViewModel"
+                    Command="{Binding ChangeColorCommand}"
+                    CommandParameter="Yellow"
+                    BackgroundColor="Yellow"
+                    VerticalOptions="Start"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    HorizontalOptions="End"
+                    Margin="0,0,20,0"/>
+            
+            </Grid>
+            <ListView
+                x:DataType="viewmodel:ViewModel"
+                ItemsSource="{Binding ListTaskItems}"
+                BackgroundColor="Transparent"
+                SeparatorColor="Silver"
+                SeparatorVisibility="None"
+                SelectedItem="{Binding SelectTaskItem, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="taskitem:TaskItem">
+                        <ViewCell >
+                            <Grid>
+                                <CheckBox
+                                    IsChecked="{Binding ItemCompleted}"
+                                    HorizontalOptions="Start"
+                                    Margin="30,0,0,0"/>
+                                <Button
+                                    BackgroundColor="{Binding Coloring}"
+                                    Command="{Binding Source={RelativeSource FindAncestorBindingContext, AncestorType={x:Type viewmodel:ViewModel}}, Path=ChooseColorCommand}"
+                                    CommandParameter="{Binding }"
+                                    HorizontalOptions="Start"
+                                    CornerRadius="25"
+                                    WidthRequest="30"
+                                    HeightRequest="30"/>
+                                <Label
+                                x:DataType="taskitem:TaskItem"
+                                HorizontalOptions="Center"
+                                Text="{Binding ItemName}"
+                                LineBreakMode="TailTruncation"
+                                FontSize="20"
+                                VerticalTextAlignment="Center"
+                                Margin="75,0,30,0"/>
+                                <ImageButton
+                                    HorizontalOptions="End"
+                                    CommandParameter="{Binding  }"
+                                    Command="{Binding Source={RelativeSource FindAncestorBindingContext, AncestorType={x:Type viewmodel:ViewModel}}, Path=DeleteTaskCommand}"
+                                    Source="Resources/Images/delete.png"
+                                    WidthRequest="30"
+                                    HeightRequest="30"/>
+                                   
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
